@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import Navbar from '../components/Navbar';
 import JobCard from '../components/JobCard';
-import { getJobs, createJob } from '../services/api';
+import { getJobs, createJob, updateJob  } from '../services/api';
 
 const STATUSES = ['All', 'Applied', 'Interview', 'Offer', 'Rejected'];
 
@@ -45,7 +45,6 @@ export default function Dashboard() {
 
     try {
       if (editingJob) {
-        const { updateJob } = await import('../services/api');
         await updateJob(editingJob._id, formData);
         toast.success('Job updated successfully');
         setEditingJob(null);
@@ -85,16 +84,6 @@ export default function Dashboard() {
   const handleTextareaInput = (e) => {
     e.target.style.height = 'auto';
     e.target.style.height = Math.min(e.target.scrollHeight, 300) + 'px';
-  };
-
-  const handleExport = () => {
-    const rows = [['Company','Role','Status','Applied Date','Notes']];
-    jobs.forEach(j => rows.push([j.company, j.role, j.status, new Date(j.appliedDate).toLocaleDateString(), j.notes || '']));
-    const csv = rows.map(r => r.join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a'); a.href = url; a.download = 'job-applications.csv'; a.click();
-    toast.success('Exported to CSV!');
   };
 
   let filteredJobs = filter === 'All' ? jobs : jobs.filter(j => j.status === filter);

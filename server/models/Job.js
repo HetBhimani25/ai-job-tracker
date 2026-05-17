@@ -9,6 +9,8 @@ const JobSchema = new mongoose.Schema({
   jdFileName:     { type: String },
   resumeText:     { type: String },
   resumeFileName: { type: String },
+  extractedSkills: { type: String, default: '' },
+  resumeSummary:   { type: String, default: '' },
   aiAnalysis:     { type: String },
   appliedDate: { type: Date, default: Date.now },
   followUpDate:{ type: Date },

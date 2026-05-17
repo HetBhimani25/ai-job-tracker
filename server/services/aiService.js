@@ -70,3 +70,28 @@ Respond in this exact JSON format:
 };
 
 module.exports = { analyzeJD, generateCoverLetter, generateInterviewQuestions };
+
+const extractSkillsFromResume = async (resumeText) => {
+  const completion = await client.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
+    max_tokens: 512,
+    messages: [
+      { role: 'system', content: 'You are a resume parser. Always respond with valid JSON only.' },
+      { role: 'user', content: `Extract all technical and soft skills from this resume.
+
+Resume:
+${resumeText}
+
+Return ONLY this JSON format:
+{
+  "skills": "<comma separated list of all skills found>",
+  "name": "<candidate full name if found>",
+  "summary": "<2 sentence professional summary>"
+}` }
+    ]
+  });
+  const text = completion.choices[0].message.content;
+  return JSON.parse(text.replace(/\`\`\`json|\`\`\`/g, '').trim());
+};
+
+module.exports = { analyzeJD, generateCoverLetter, generateInterviewQuestions, extractSkillsFromResume };
