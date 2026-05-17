@@ -1,10 +1,10 @@
 const { analyzeJD, generateCoverLetter, generateInterviewQuestions } = require('../services/aiService');
 
 exports.analyzeJob = async (req, res) => {
-  const { jobDescription, userSkills } = req.body;
+  const { jobDescription, userSkills, resumeText } = req.body;
   if (!jobDescription) return res.status(400).json({ msg: 'Job description is required' });
   try {
-    const analysis = await analyzeJD(jobDescription, userSkills || '');
+    const analysis = await analyzeJD(jobDescription, userSkills || '', resumeText || '');
     res.json(analysis);
   } catch (err) {
     console.error('AI ERROR:', err.message);

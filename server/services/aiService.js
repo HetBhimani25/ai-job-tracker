@@ -1,23 +1,23 @@
 const Groq = require('groq-sdk');
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-const analyzeJD = async (jobDescription, userSkills) => {
+const analyzeJD = async (jobDescription, userSkills, resumeText = '') => {
   const completion = await client.chat.completions.create({
     model: 'llama-3.3-70b-versatile',
     max_tokens: 1024,
     messages: [
       { role: 'system', content: 'You are a career coach AI. Always respond with valid JSON only, no extra text or markdown.' },
-      { role: 'user', content: `Analyze the following job description and give structured feedback.
+      { role: 'user', content: `Analyze the following job description against the candidate's details.
+${resumeText ? `Full Resume Content: ${resumeText}` : `Candidate Current Skills: ${userSkills}`}
 
 Job Description: ${jobDescription}
-Candidate Current Skills: ${userSkills}
 
 Respond in this exact JSON format:
 {
   "matchScore": <number 0-100>,
   "strongMatches": [<skills candidate has that match>],
   "skillGaps": [<skills missing>],
-  "resumeTips": [<3-4 resume improvement suggestions>],
+  "resumeTips": [<3-4 resume improvement suggestions based on the JD and candidate's current resume/skills>],
   "summary": "<2 sentence assessment>"
 }` }
     ]
