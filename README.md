@@ -1,54 +1,65 @@
-# AI-Powered Job Application Tracker
+# 🔍 JobLens — AI-Powered Job Application Tracker
 
-A full-stack web application to track job applications with an integrated
-AI assistant that analyzes job descriptions, suggests resume improvements,
-and sends follow-up reminders.
+> Track every job application with AI assistance — analyze JDs, generate cover letters, and prep for interviews
 
-## 🚀 Features
+🔗 **GitHub:** https://github.com/HetBhimani25/ai-job-tracker
 
-- Track job applications with status pipelines (Applied → Interview → Offer)
-- AI-powered JD analyzer using OpenAI API — suggests skill gaps and resume improvements
-- Secure JWT-based authentication and protected routes
-- Email reminders via Node.js cron jobs for follow-ups and interviews
-- React.js dashboard with real-time status updates
+---
+
+## ✨ Features
+
+- 📋 Full job application pipeline (Applied → Interview → Offer → Rejected)
+- 🤖 AI Job Description Analyzer — match score, skill gaps, resume tips
+- ✉️ AI Cover Letter Generator — personalized per company and role
+- 🎯 AI Interview Prep — technical + behavioral questions + tips
+- 📄 PDF/TXT resume upload with auto skill extraction
+- 📁 PDF/TXT JD upload with auto text extraction
+- 🔔 Follow-up date reminders with overdue warnings
+- 🔍 Search, filter, and sort applications
+- 📊 Stats dashboard (Applied, Interview, Offer, Rejected counts)
+- 📥 CSV export of all applications
+- 🎛️ AI Bottom Drawer — minimize/maximize AI panel
+- 🔐 JWT Authentication
+
+---
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React.js, Axios, React Context API  
-**Backend:** Node.js, Express.js, JWT  
-**Database:** MongoDB  
-**AI Integration:** OpenAI API, Prompt Engineering  
+| Layer | Technology |
+|---|---|
+| **Frontend** | React.js, Context API, React Router |
+| **Backend** | Node.js, Express.js |
+| **AI/LLM** | Groq API (llama-3.3-70b-versatile) |
+| **Database** | MongoDB (Mongoose) |
+| **Auth** | JWT (jsonwebtoken + bcryptjs) |
+| **File Upload** | Multer (memory storage) |
+| **PDF Parsing** | pdf-parse |
 
-## 📁 Project Structure
+---
 
-ai-job-tracker/
-├── client/          # React.js frontend
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── context/
-├── server/          # Node.js + Express backend
-│   ├── routes/
-│   ├── controllers/
-│   ├── models/
-│   ├── middleware/
-│   └── services/    # AI integration & cron jobs
-└── README.md
+## 🤖 AI Features
 
-## ⚙️ Setup & Installation
+- **JD Analyzer** — Compares job description against your resume, returns match score (0-100), strong matches, skill gaps, and resume improvement tips
+- **Cover Letter Generator** — Writes a personalized 3-paragraph cover letter based on JD + your skills
+- **Interview Prep** — Generates 5 technical questions, 3 behavioral questions, and 3 preparation tips specific to the role
+- **Auto Skill Extraction** — Uploads your resume PDF → AI extracts skills automatically → used for all AI analysis
+---
 
-### Prerequisites
-- Node.js >= 18.x
-- MongoDB (local or Atlas)
-- OpenAI API Key
+## 🚀 Run Locally
 
 ### Backend
 ```bash
 cd server
 npm install
-cp .env.example .env
-# Add your MONGODB_URI, JWT_SECRET, OPENAI_API_KEY in .env
-npm run dev
+
+# Create .env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/ai-job-tracker
+JWT_SECRET=your_secret
+GROQ_API_KEY=your_groq_key
+ALLOWED_ORIGINS=http://localhost:3000
+
+node index.js
 ```
 
 ### Frontend
@@ -58,25 +69,27 @@ npm install
 npm start
 ```
 
-## 🔑 Environment Variables
+---
 
-```env
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-OPENAI_API_KEY=your_openai_api_key
-PORT=5000
-```
+## 🌐 API Endpoints
 
-## 🗺️ Roadmap
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/register` | Register user |
+| POST | `/api/auth/login` | Login user |
+| GET | `/api/jobs` | Get all jobs |
+| POST | `/api/jobs` | Create job + upload files |
+| PUT | `/api/jobs/:id` | Update job |
+| DELETE | `/api/jobs/:id` | Delete job |
+| POST | `/api/ai/analyze` | Analyze JD vs resume |
+| POST | `/api/ai/cover-letter` | Generate cover letter |
+| POST | `/api/ai/interview-prep` | Generate interview questions |
+| GET | `/api/user/profile` | Get user profile |
+| PUT | `/api/user/profile` | Update skills |
 
-- [x] Project setup & folder structure
-- [ ] User auth (JWT)
-- [ ] Job CRUD APIs
-- [ ] AI JD Analyzer integration
-- [ ] React dashboard
-- [ ] Cron job email reminders
+---
 
-## 👤 Author
+## 👨‍💻 Author
 
 **Het Bhimani**  
-[LinkedIn](https://linkedin.com/in/hetbhimani) • [GitHub](https://github.com/HetBhimani25)
+[GitHub](https://github.com/HetBhimani25) · [LinkedIn](https://www.linkedin.com/in/hetbhimani)
